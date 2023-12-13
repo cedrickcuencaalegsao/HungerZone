@@ -1,0 +1,38 @@
+nav {
+        width: 100%;
+        padding: 10px;
+        background-color: #f44336;
+    }
+    ul {
+        margin-left: 35%;
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        display: inline;
+        margin-right: 8px;
+    }
+    a {
+        font-size: 18px;
+        text-decoration: none;
+        color: white;
+        font-family: "Arial", sans-serif;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .navigation-bar h3 {
+        margin-left: 50px;
+        margin-top: 10px;
+        color: white;
+        position: absolute;
+        margin-right: 100px;
+        font-family: cursive;
+        font-size: 2em;
+    }
+    .selected-tab a {
+        text-decoration: underline;
+    }
+
+
+    

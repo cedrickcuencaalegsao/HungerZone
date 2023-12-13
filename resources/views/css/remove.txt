@@ -1,0 +1,41 @@
+    .navigation-bar{
+        width: 500px;
+    }
+    .navigation-bar nav {
+        width: 100%;
+        position: fixed;
+        padding: 7px;
+        background-color: #f44336;
+    }
+
+    .navigation-bar ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .navigation-bar li {
+        display: inline;
+        margin-right: 20px;
+    }
+
+    .navigation-bar  a {
+        font-size: 20px;
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+        font-family: "Arial", sans-serif;
+    }
+
+    .navigation-bar a:hover {
+        text-decoration: underline;
+    }
+
+    .navigation-bar h3 {
+        margin-left: 50px;
+        margin-top: 10px;
+        color: black;
+        position: relative;
+        margin-right: 100px;
+        font-family: cursive;
+        font-size: 2em;
+    }

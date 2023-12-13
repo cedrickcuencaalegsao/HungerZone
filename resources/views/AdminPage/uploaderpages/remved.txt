@@ -1,0 +1,5 @@
+@forelse ($datas as $data)
+                <img src="{{ asset('images/loginimg/' . $data->image) }}" style="height: 300px" alt="image">
+                <p>{{ $data->name }}</p>
+            @empty
+            @endforelse

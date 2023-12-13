@@ -1,0 +1,5 @@
+<img src="{{ asset('images/menu/' . $menu->image) }}" width="310px" height="230px" alt="image"><br>
+            <h3>{{ $menu->name }}</h3><br>
+            <p>PHP: {{ $menu->price }}</p><br>
+            <a href="#"><button class="order-now">order now</button></a>
+            <a href="#"><button class="add-to-cart">add to cart</button></a>
