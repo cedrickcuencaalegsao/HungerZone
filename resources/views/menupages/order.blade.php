@@ -37,10 +37,10 @@
             <label>Contact Number: </label><input type="text" name="phone" value="{{ auth()->user()->phone }}"><br>
             <label>Restaurant Name: </label><input type="text" name="rname" value="{{ $data->restaurantname }}"><br>
             <label>Menu Name: </label><input type="text" name="mName" value="{{ $data->name }}"><br>
-            <label>Price: </label><input type="text" name="price" value="{{ $data->price }}"><br>
-            <label>Quatity: </label><input type="number" name="quantity"><br>
+            <label>Price: </label><input type="text" name="price" value="{{ $data->price }}" id="price"><br>
+            <label>Quatity: </label><input type="number" name="quantity" onchange="totalAmount(this.value)"><br>
             <label>Address: </label><input type="text" name="address"><br>
-            <label>Total Amount:</label><span>asdf</span><br>
+            <label>Total Amount:</label><input type="number" name="totalamount" id="totalamount"><br>
             <label>Order Payment:</label>
             <select name="payment" id="payment">
                 <option value="BDO">BDO</option>
@@ -54,3 +54,10 @@
         </form>
     </div>
 @stop
+<script>
+    function totalAmount(val) {
+        let price = document.getElementById("price").value;
+        let totalamount = val * parseInt(price);
+        document.getElementById("totalamount").value = totalamount;
+    }
+</script>

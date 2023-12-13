@@ -441,17 +441,36 @@
         margin-right: 20px;
         margin-bottom: -50px;
         overflow: hidden;
-        width: 200px;
-        height: auto;
+        width: 90%;
+        height: 200px;
         background-color: #ffffff;
-        text-align: center;
         border-radius: 15px;
         word-wrap: break-word;
         box-shadow: 0px 0px 10px 6px #eeeeee;
     }
+    .details{
+        margin-top: 10px;
+        height: 200px;
+        width: 60%;
+        word-wrap: break-word;
+    }
+    .details label{
+        padding: 10px;
+        font-family: "Poppins", sans-serif;
+    }
+    .right{
+        margin-bottom: 10px;
+    }
+    .left{
+        transform: translateX(150px) translateY(10px);
+    }
     .delivery-cards img {
-        width: 200px;
-        height: 150px;
+        transform: translateX(800px) translateY(-220px);
+        width: 250px;
+        height: 200px;
+    }
+    .btn-cancel{
+        position: absolute;
     }
     .form-wrapper{
         margin-top: 100px;

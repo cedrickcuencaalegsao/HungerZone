@@ -336,6 +336,7 @@ class WebController extends Controller {
         return redirect(route('view.delivery', ['user_id' => encrypt(auth()->user()->id)]));
     }
     public function view_history() {
+
         return view('homePages.h');
     }
     public function view_profile() {
@@ -410,7 +411,8 @@ class WebController extends Controller {
             'price' => 'required',
             'quantity' => 'required',
             'mName' => 'required',
-            'address' => 'required'
+            'address' => 'required',
+            'totalamount' => 'required'
         ]);
         $data = $request->all();
         table_delivery::insert([
@@ -424,6 +426,7 @@ class WebController extends Controller {
             'address' => $data['address'],
             'status' => 0,
             'quantity' => $data['quantity'],
+            'total_amount' => $data['totalamount'],
             'created_at' => $created_at
         ]);
         return redirect(route('view.delivery', ['user_id' => encrypt(auth()->user()->id)]));
