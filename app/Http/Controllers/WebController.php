@@ -37,14 +37,27 @@ class WebController extends Controller
         $user = User::all();
 
         // delivery table
-        $dlvry = table_delivery::all();
-        // dd($dlvry);
+        $dlvry = table_delivery::all()->sortBy('status');
 
         $count_restaurant = count($restaurant);
         $count_menu = count($menu);
         $count_user = count($user);
 
         return view('AdminPage.adminpages.adminhome', compact('count_restaurant', 'count_menu', 'count_user', 'dlvry'));
+    }
+    public function changeStatus(string $id)
+    {
+        $id = decrypt($id);
+        $updated_at = Carbon::now()->toDateString();
+        if ($id != null) {
+            table_delivery::find($id)->update([
+                'status' => 1,
+                'updated_at' => $updated_at
+            ]);
+        } else {
+            return redirect(route('view.admin'));
+        }
+        return redirect(route('view.admin'));
     }
     public function view_users()
     {
@@ -354,7 +367,7 @@ class WebController extends Controller
     public function view_delivery(string $user_id)
     {
         $user_id = decrypt($user_id);
-        $data = table_delivery::where('created_by', $user_id)->get();
+        $data = table_delivery::where('created_by', $user_id)->where('status', 0)->get();
         return view('homePages.delivery', compact('data'));
     }
     public function cancel_delivery(string $id)
@@ -366,10 +379,11 @@ class WebController extends Controller
         }
         return redirect(route('view.delivery', ['user_id' => encrypt(auth()->user()->id)]));
     }
-    public function view_history()
+    public function view_history(string $user_id)
     {
-
-        return view('homePages.h');
+        $id = decrypt($user_id);
+        $data = table_delivery::where('created_by', $id)->where('status', 1)->get();
+        return view('homePages.h', compact('data'));
     }
     public function view_profile()
     {

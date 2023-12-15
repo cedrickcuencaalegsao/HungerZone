@@ -29,8 +29,13 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('uploadimagelogin', [WebController::class, 'uploadimage_login'])->name('up.login.img');
     Route::post('uploadimgrestaurant', [WebController::class, 'upldImgRest'])->name('up.img.rest');
     Route::post('uploadjollibeemenu', [WebController::class, 'uploadimage_menu'])->name('upload.menu');
+    // changes status.
+    Route::get('updateStatus/{id}', [WebController::class, 'changeStatus'])->name('change.status');
 
+
+    //
     // Client pages.
+    //
     Route::get('/', [WebController::class, 'f_login'])->name('login');
     Route::get('login', [WebController::class, 'f_login'])->name('login');
     Route::get('register', [WebController::class, 'f_reg'])->name('register');
@@ -47,7 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Client Pages.
     Route::get('home', [WebController::class, 'show_home'])->name('view.home');
     Route::get('cart/{user_id}', [WebController::class, 'view_cart'])->name('view.cart');
-    Route::get('history', [WebController::class, 'view_history'])->name('view.history');
+    Route::get('history/{user_id}', [WebController::class, 'view_history'])->name('view.history');
     Route::get('delivery/{user_id}', [WebController::class, 'view_delivery'])->name('view.delivery');
     Route::get('canceldelivery/{id}', [WebController::class, 'cancel_delivery'])->name('cancel.delivery');
     Route::get('profile', [WebController::class, 'view_profile'])->name('view.profile');
@@ -67,5 +72,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cancelupdateprofile', [WebController::class, 'cancelUpdateProfile'])->name('cancel.update.profile');
 
     // update password.
-    
+
 });

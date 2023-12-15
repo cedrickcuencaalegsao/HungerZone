@@ -9,4 +9,8 @@ class table_delivery extends Model
 {
     use HasFactory;
     protected $table = 'table_delivery';
+    protected $fillable = [
+        'status',
+        'updated_at'
+    ];
 }
