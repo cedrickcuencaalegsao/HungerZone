@@ -435,43 +435,93 @@
         padding: 7px;
         width: 100px;
     }
-    .delivery-cards{
+    .delivery{
         margin-top: 100px;
+        width: 90%;
+    }
+    .delivery-cards{
+        position: relative;
+        display: flex;
+        margin-top: 0px;
         margin-left: 20px;
         margin-right: 20px;
-        margin-bottom: -50px;
+        margin-bottom: 50px;
         overflow: hidden;
-        width: 90%;
-        height: 200px;
+        width: 100%;
+        height: auto;
         background-color: #ffffff;
         border-radius: 15px;
         word-wrap: break-word;
         box-shadow: 0px 0px 10px 6px #eeeeee;
     }
     .details{
-        margin-top: 10px;
+        padding: 10px;
+        margin-top: 7px;
         height: 200px;
-        width: 60%;
-        word-wrap: break-word;
+        width: 100%;
+        margin-bottom: 0px;
     }
     .details label{
+        position: relative;
+        font-family: "Poppins", sans-serif;
+        font-size: 1.2em;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+    .details span{
         padding: 10px;
         font-family: "Poppins", sans-serif;
-    }
-    .right{
-        margin-bottom: 10px;
-    }
-    .left{
-        transform: translateX(150px) translateY(10px);
+        font-size: 1.2em;
     }
     .delivery-cards img {
-        transform: translateX(800px) translateY(-220px);
         width: 250px;
         height: 200px;
     }
     .btn-cancel{
-        position: absolute;
+        position: relative;
+        padding: 10px;
+        width: 300px;
+        border-radius: 5px;
+        border: 1px solid #f44336;
+        background-color: #f44336;
+        color: white;
+        margin-top: 10px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-weight: 700;
     }
+    .btn-cancel:hover{
+        border: 1px solid #d50000;
+        background-color: #d50000
+    }
+    /*
+
+
+    .right{
+        width: 360px;
+        margin-left: 20px;
+        margin-top: 20px;
+        ord-wrap: break-word;
+    }
+    .left{
+        position: relative;
+        transform: translateX(470px) translateY(auto);
+        ord-wrap: break-word;
+    }
+
+    .btn-cancel{
+        position: relative;
+        transform: translateY(-270px);
+        margin-left: 50px;
+    }
+    .btn-cancel button{
+        padding: 10px;
+        width: 300px;
+        border-radius: 5px;
+        border: 1px solid #f44336;
+        background-color: #f44336;
+        color: white;
+    } */
     .form-wrapper{
         margin-top: 100px;
     }

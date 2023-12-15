@@ -22,41 +22,55 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Crypt;
 
-class WebController extends Controller {
+class WebController extends Controller
+{
     //
     //
     // Admin routes.
     //
     //
-    public function view_adminhome() {
+    public function view_adminhome()
+    {
+        // tables to be counted.
         $restaurant = table_restaurant::all();
-        $count_restaurant = count($restaurant);
         $menu = table_menu::all();
-        $count_menu = count($menu);
         $user = User::all();
+
+        // delivery table
+        $dlvry = table_delivery::all();
+        // dd($dlvry);
+
+        $count_restaurant = count($restaurant);
+        $count_menu = count($menu);
         $count_user = count($user);
-        return view('AdminPage.adminpages.adminhome', compact('count_restaurant', 'count_menu', 'count_user'));
+
+        return view('AdminPage.adminpages.adminhome', compact('count_restaurant', 'count_menu', 'count_user', 'dlvry'));
     }
-    public function view_users() {
+    public function view_users()
+    {
         $data = User::all();
         return view('AdminPage.adminpages.users', compact('data'));
     }
-    public function uploader_menu() {
+    public function uploader_menu()
+    {
         $restaurantnames = DB::table('table_restaurant')->get();
         $data = table_menu::all();
         return view('AdminPage.uploaderspages.menu', compact('restaurantnames', 'data'));
     }
-    public function uploaderloginimages() {
+    public function uploaderloginimages()
+    {
         $data = login_images::all();
         return view('AdminPage.uploaderpages.loginuploader', compact('data'));
     }
-    public function uploader_restaurant() {
+    public function uploader_restaurant()
+    {
         $data = table_restaurant::all();
         return view('AdminPage.uploaderspages.restaurant', compact('data'));
     }
-    public function uploadimage_menu(Request $request) {
+    public function uploadimage_menu(Request $request)
+    {
         $id = table_menu::select('id')->get();
-        if(count($id) > 0) {
+        if (count($id) > 0) {
             $menu_id = table_menu::orderBy('id', 'desc')->first();
             $menu_id = $menu_id->id + 1;
         } else {
@@ -76,17 +90,17 @@ class WebController extends Controller {
             'image' => 'required'
         ]);
 
-        if($count == 0) {
+        if ($count == 0) {
             $menus = $request->all();
-            if($request->file('image')) {
+            if ($request->file('image')) {
                 $image = $request->file('image');
 
                 $destinationPath = 'images/menu';
-                $profileImage = date('YmdHis').".".$image->getClientOriginalExtension();
+                $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
                 $image->move($destinationPath, $profileImage);
                 $menus['image'] = $profileImage;
             }
-            if($menus['bestseller'] === $no) {
+            if ($menus['bestseller'] === $no) {
                 table_menu::insert([
                     'id' => $menu_id,
                     'restaurantname' => $menus['restaurantname'],
@@ -114,21 +128,24 @@ class WebController extends Controller {
         }
         return redirect(route('uploader.menu'))->with('message', 'You have Register new menu.');
     }
-    public function delMenu(string $id, string $image) {
+    public function delMenu(string $id, string $image)
+    {
         $data = table_menu::where('id', $id)->get();
         $count = count($data);
-        if($count != 0) {
+        if ($count != 0) {
             table_menu::where('id', $id)->delete(); //delete rows in the database.
-            File::delete(public_path('images/menu/'.$image)); //delete image from its directory
+            File::delete(public_path('images/menu/' . $image)); //delete image from its directory
         }
         return $this->uploader_menu()->with('message', 'Menu deleted successfully.');
     }
-    public function editMenu(string $id) {
+    public function editMenu(string $id)
+    {
         $data = table_menu::where('id', $id)->first();
         $restaurant = table_restaurant::all();
         return view('AdminPage.adminpages.updatemenu', compact('data', 'restaurant'));
     }
-    public function updateMenu(Request $request, string $id, string $image) {
+    public function updateMenu(Request $request, string $id, string $image)
+    {
         $updated_at = Carbon::now()->toDateString();
         $request->validate([
             'menuname' => 'required',
@@ -137,7 +154,7 @@ class WebController extends Controller {
             'restaurantname' => 'required'
         ]);
         $data = $request->all();
-        if($request->file('image') == null) {
+        if ($request->file('image') == null) {
             table_menu::find($id)->update([
                 'bestseller' => $data['bestseller'],
                 'restaurantname' => $data['restaurantname'],
@@ -147,10 +164,10 @@ class WebController extends Controller {
                 'updated_at' => $updated_at
             ]);
         } else {
-            File::delete(public_path('images/menu/'.$image));
+            File::delete(public_path('images/menu/' . $image));
             $image = $request->file('image');
             $destinationPath = 'images/menu';
-            $profileImage = date('YmdHis').".".$image->getClientOriginalExtension();
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $data['image'] = $profileImage;
 
@@ -166,18 +183,19 @@ class WebController extends Controller {
         }
         return $this->uploader_menu()->with('message', 'Menu Updated successfully.');
     }
-    public function uploadimage_login(Request $request) {
+    public function uploadimage_login(Request $request)
+    {
         $created = Carbon::now()->toDateString();
         $request->validate([
             'name' => 'required',
             'image' => 'required'
         ]);
         $login_imgs = $request->all();
-        if($request->file('image')) {
+        if ($request->file('image')) {
             $image = $request->file('image');
 
             $destinationPath = 'images/loginimg';
-            $profileImage = date('YmdHis').".".$image->getClientOriginalExtension();
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $login_imgs['image'] = $profileImage;
         }
@@ -188,35 +206,38 @@ class WebController extends Controller {
         ]);
         return $this->uploaderloginimages();
     }
-    public function delLoginImg(string $id, string $image) {
+    public function delLoginImg(string $id, string $image)
+    {
         $data = login_images::where('id', $id)->get();
         $count = count($data);
-        if($count != 0) {
+        if ($count != 0) {
             login_images::where('id', $id)->delete();
-            File::delete(public_path('images/loginimg/'.$image));
+            File::delete(public_path('images/loginimg/' . $image));
         }
         return $this->updateLoginImg()->with('message', 'Image successfully Deleted.');
     }
-    public function editLoginImg(string $id) {
+    public function editLoginImg(string $id)
+    {
         $data = login_images::where('id', $id)->first();
         return view('AdminPage.adminpages.updateLoginImg', compact('data'));
     }
-    public function updateLoginImg(Request $request, string $id, string $image) {
+    public function updateLoginImg(Request $request, string $id, string $image)
+    {
         $updated_at = Carbon::now()->toDateString();
         $request->validate([
             'restaurantname' => 'required'
         ]);
         $data = $request->all();
-        if($request->file('image') === null) {
+        if ($request->file('image') === null) {
             login_images::find($id)->update([
                 'name' => $data['restaurantname'],
                 'updated_at' => $updated_at
             ]);
         } else {
-            File::delete(public_path('images/loginimg/'.$image));
+            File::delete(public_path('images/loginimg/' . $image));
             $image = $request->file('image');
             $destinationPath = 'images/loginimg';
-            $profileImage = date('YmdHis').".".$image->getClientOriginalExtension();
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $data['image'] = $profileImage;
 
@@ -228,22 +249,23 @@ class WebController extends Controller {
         }
         return $this->uploaderloginimages()->with('message', 'Login Images and details successfully updated.');
     }
-    public function upldImgRest(Request $request) {
+    public function upldImgRest(Request $request)
+    {
         $rest_count = table_restaurant::where('restaurantname', $request->name)->get();
         $count = count($rest_count);
         $created_at = Carbon::now()->toDateString();
 
-        if($count === 0) {
+        if ($count === 0) {
             $request->validate([
                 'name' => 'required',
                 'tagline' => 'required',
                 'image' => 'required'
             ]);
             $rest_img = $request->all();
-            if($request->file('image')) {
+            if ($request->file('image')) {
                 $image = $request->file('image');
                 $destinationPath = 'images/restaurant';
-                $profileImage = date('YmdHis').".".$image->getClientOriginalExtension();
+                $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
                 $image->move($destinationPath, $profileImage);
                 $rest_img['image'] = $profileImage;
             }
@@ -258,37 +280,40 @@ class WebController extends Controller {
         }
         return redirect(route('uploader.restaurant'))->with('message', 'Restaurant successfully registered.');
     }
-    public function delRestaurant(string $id, string $image) {
+    public function delRestaurant(string $id, string $image)
+    {
         $data = table_restaurant::where('id', $id)->where('image', $image)->get();
         $count = count($data);
-        if($count != 0) {
+        if ($count != 0) {
             table_restaurant::where('id', $id)->delete();
-            File::delete(public_path('images/restaurant/'.$image));
+            File::delete(public_path('images/restaurant/' . $image));
         }
         return $this->uploader_restaurant();
     }
-    public function editRestaurant(Request $request, string $id) {
+    public function editRestaurant(Request $request, string $id)
+    {
         $data = table_restaurant::where('id', $id)->first();
         return view('AdminPage.adminpages.updaterestaurant', compact('data'));
     }
-    public function updateRestuarant(Request $request, string $id, string $image) {
+    public function updateRestuarant(Request $request, string $id, string $image)
+    {
         $data = $request->all();
         $updated_at = Carbon::now()->toDateString();
         $request->validate([
             'name' => 'required',
             'tagline' => 'required'
         ]);
-        if($request->file('image') === null) {
+        if ($request->file('image') === null) {
             table_restaurant::find($id)->update([
                 'restuarantname' => $data['name'],
                 'tagline' => $data['tagline'],
                 'updated_at' => $updated_at
             ]);
         } else {
-            File::delete(public_path('images/restaurant/'.$image));
+            File::delete(public_path('images/restaurant/' . $image));
             $image = $request->file('image');
             $destinationPath = 'images/restaurant';
-            $profileImage = date('YmdHis').".".$image->getClientOriginalExtension();
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $data['image'] = $profileImage;
 
@@ -307,39 +332,47 @@ class WebController extends Controller {
     // Client routes.
     //
     //
-    public function f_login() {
+    public function f_login()
+    {
         $login_imgs = login_images::all();
         return view('pages.login', compact('login_imgs'));
     }
-    public function f_reg() {
+    public function f_reg()
+    {
         return view('pages.register');
     }
-    public function cancel_reg() {
+    public function cancel_reg()
+    {
         return $this->f_login();
     }
-    public function view_cart(string $user_id) {
+    public function view_cart(string $user_id)
+    {
         $user_id = decrypt($user_id);
         $data = table_cart::where('created_by', $user_id)->get();
         return view('homePages.cart', compact('data'));
     }
-    public function view_delivery(string $user_id) {
+    public function view_delivery(string $user_id)
+    {
         $user_id = decrypt($user_id);
         $data = table_delivery::where('created_by', $user_id)->get();
         return view('homePages.delivery', compact('data'));
     }
-    public function cancel_delivery(string $id) {
+    public function cancel_delivery(string $id)
+    {
         $data = table_delivery::where('id', $id)->get();
         $count = count($data);
-        if($count != 0) {
+        if ($count != 0) {
             table_delivery::where('id', $id)->delete();
         }
         return redirect(route('view.delivery', ['user_id' => encrypt(auth()->user()->id)]));
     }
-    public function view_history() {
+    public function view_history()
+    {
 
         return view('homePages.h');
     }
-    public function view_profile() {
+    public function view_profile()
+    {
         $cart = table_cart::all();
         $menu = table_menu::all();
         $menuCount = count($menu);
@@ -347,18 +380,19 @@ class WebController extends Controller {
         $data = [$menuCount, $cartCount];
         return view('homePages.profile', compact('data'));
     }
-    public function view_jMenu(string $category, string $restaurant, string $bestseller) {
+    public function view_jMenu(string $category, string $restaurant, string $bestseller)
+    {
         $data = table_menu::where('restaurantname', $restaurant)->get();
         $menu = [];
         $restaurant_menu = [];
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $menu[] = $value->categories;
-            if($category == 'null') {
-                if($value->bestseller == $bestseller) {
+            if ($category == 'null') {
+                if ($value->bestseller == $bestseller) {
                     $restaurant_menu[] = $value;
                 }
             } else {
-                if($value->categories == $category) {
+                if ($value->categories == $category) {
                     $restaurant_menu[] = $value;
                 }
             }
@@ -366,13 +400,14 @@ class WebController extends Controller {
         $menu = array_unique($menu);
         return view('menupages.menu', compact('menu', 'restaurant_menu', 'restaurant'));
     }
-    public function AddToCart(string $user_id, string $image, string $menu_name, string $restaurant, string $price) {
+    public function AddToCart(string $user_id, string $image, string $menu_name, string $restaurant, string $price)
+    {
         $user_id = decrypt($user_id);
         $created_at = Carbon::now()->toDateString();
         $data = table_cart::where('menu_name', $menu_name)->where('created_by', $user_id)->get();
         $data_count = count($data);
-        if($data_count == 0) {
-            if($user_id != 0) {
+        if ($data_count == 0) {
+            if ($user_id != 0) {
                 table_cart::insert([
                     'created_by' => $user_id,
                     'image' => $image,
@@ -387,21 +422,24 @@ class WebController extends Controller {
         }
         return redirect(route('view.cart', ['user_id' => encrypt(auth()->user()->id)]));
     }
-    public function removeFromCart(string $user_id, string $cart_id) {
+    public function removeFromCart(string $user_id, string $cart_id)
+    {
         $user_id = decrypt($user_id);
         $data = table_cart::where('created_by', $user_id)->get();
         $count = count($data);
-        if($count != 0) {
+        if ($count != 0) {
             table_cart::where('id', $cart_id)->delete();
         }
         return $this->view_cart(encrypt($user_id));
     }
-    public function orderNow(string $menu_name, string $restaurant, string $image, string $price) {
+    public function orderNow(string $menu_name, string $restaurant, string $image, string $price)
+    {
         $date = Carbon::now()->toDateString();
         $data = table_menu::where('restaurantname', $restaurant)->where('name', $menu_name)->first();
         return view('menupages.order', compact('data', 'date'));
     }
-    public function order(Request $request, string $user_id, string $image) {
+    public function order(Request $request, string $user_id, string $image)
+    {
         $created_at = Carbon::now()->toDateString();
         $request->validate([
             'menuid' => 'required',
@@ -431,13 +469,15 @@ class WebController extends Controller {
         ]);
         return redirect(route('view.delivery', ['user_id' => encrypt(auth()->user()->id)]));
     }
-    public function show_home() {
-        if(auth::check()) {
+    public function show_home()
+    {
+        if (auth::check()) {
             $rest_img = table_restaurant::all();
             return view('homePages.home', compact('rest_img'));
         }
     }
-    public function validateLogin(Request $request) {
+    public function validateLogin(Request $request)
+    {
         $request->validate([
             'email' => 'required',
             'password' => 'required'
@@ -445,12 +485,13 @@ class WebController extends Controller {
 
         $credentials = $request->only('email', 'password');
 
-        if(Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
             return redirect('home')->with('message', 'Login Successful!');
         }
         return redirect('login')->with('message', 'Login Failed!');
     }
-    public function validateRegister(Request $request) {
+    public function validateRegister(Request $request)
+    {
         $created_at = Carbon::now()->toDateString();
         $request->validate([
             'FirstName' => 'required',
@@ -461,7 +502,7 @@ class WebController extends Controller {
             'ConfirmPassword' => 'required'
         ]);
         $data = $request->all();
-        if($data['Password'] === $data['ConfirmPassword']) {
+        if ($data['Password'] === $data['ConfirmPassword']) {
             User::insert([
                 'firstname' => $data['FirstName'],
                 'lastname' => $data['LastName'],
@@ -479,17 +520,20 @@ class WebController extends Controller {
             return redirect('register')->with('message', 'Password did not match.');
         }
     }
-    public function logout(): RedirectResponse {
+    public function logout(): RedirectResponse
+    {
         Session::flush();
         Auth::logout();
         return Redirect('login');
     }
-    public function editProfile(string $id) {
+    public function editProfile(string $id)
+    {
         $user_id = decrypt($id);
         $data = User::where('id', $user_id)->first();
         return view('homePages.updateprofile', compact('data'));
     }
-    public function updateProfile(Request $request, string $id, string $image) {
+    public function updateProfile(Request $request, string $id, string $image)
+    {
 
         $updated_at = Carbon::now()->toDateString();
         $request->validate([
@@ -499,7 +543,7 @@ class WebController extends Controller {
             'phone' => 'required'
         ]);
         $data = $request->all();
-        if($request->file('image') === null) {
+        if ($request->file('image') === null) {
             User::find($id)->update([
                 'firstname' => $data['firstname'],
                 'lastname' => $data['lastname'],
@@ -507,11 +551,11 @@ class WebController extends Controller {
                 'phone' => $data['phone'],
                 'updated_at' => $updated_at
             ]);
-        } elseif($request->file('image')) {
-            File::delete(public_path('images/user/'.$image));
+        } elseif ($request->file('image')) {
+            File::delete(public_path('images/user/' . $image));
             $image = $request->file('image');
             $destinationPath = 'images/user';
-            $profileImage = date('YmdHis').".".$image->getClientOriginalExtension();
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $data['image'] = $profileImage;
             User::find($id)->update([
@@ -527,30 +571,35 @@ class WebController extends Controller {
         }
         return redirect(route('view.profile', ['id' => $id]));
     }
-    public function cancelUpdateProfile() {
+    public function cancelUpdateProfile()
+    {
         return redirect(route('view.profile'));
     }
-    public function viewSearchEmail() {
+    public function viewSearchEmail()
+    {
         return view('pages.searchemail');
     }
-    public function searchEmail(Request $request) {
+    public function searchEmail(Request $request)
+    {
         $request->validate([
             'email' => 'required|email'
         ]);
         $email = $request->email;
         $searchEmail = User::where('email', $email)->get();
         $count = count($searchEmail);
-        if($count == 0) {
+        if ($count == 0) {
             return redirect(route('view.search.email'))->with('message', 'Email not found.');
         } else {
             return redirect(route('view.change.password', ['email' => $email]))->with('message', 'Email found.');
         }
     }
-    public function viewChangePassword(string $email) {
+    public function viewChangePassword(string $email)
+    {
         $data = User::where('email', $email)->first();
         return view('pages.changepass', compact('data'));
     }
-    public function changePassword(Request $request, string $id) {
+    public function changePassword(Request $request, string $id)
+    {
         $id = decrypt($id);
         $request->validate([
             'email' => 'required|email',
@@ -559,7 +608,7 @@ class WebController extends Controller {
         ]);
         $newpwd = $request->newpassword;
         $cfrmpwd = $request->confirmpass;
-        if($newpwd === $cfrmpwd) {
+        if ($newpwd === $cfrmpwd) {
             User::find($id)->update([
                 'password' => $newpwd
             ]);

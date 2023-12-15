@@ -204,5 +204,7 @@
     .update-form {
         margin-top: 100px;
     }
-
+    .delivery-status{
+        position: relative;
+    }
 </style>
