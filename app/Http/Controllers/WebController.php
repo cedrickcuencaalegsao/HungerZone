@@ -385,6 +385,14 @@ class WebController extends Controller
         $data = table_delivery::where('created_by', $id)->where('status', 1)->get();
         return view('homePages.h', compact('data'));
     }
+    public function delHistory(string $id, string $user_id)
+    {
+        $order_id = decrypt($id);
+        if ($order_id != null) {
+            table_delivery::where('id', $order_id)->delete();
+        }
+        return redirect(route('view.history', $user_id));
+    }
     public function view_profile()
     {
         $cart = table_cart::all();

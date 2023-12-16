@@ -64,9 +64,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('order/{user_id}/{image}', [WebController::class, 'order'])->name('ordered');
     // Menu pages.
     Route::get('Menu/{category}/{restaurant}/{bestseller}', [WebController::class, 'view_jMenu'])->name('view.menu');
-
+    //edit profile.
     Route::get('editprofile/{id}', [WebController::class, 'editProfile'])->name('edit.profile');
-
+    //delete history.
+    Route::get('deletehistory/{id}/{user_id}', [WebController::class, 'delHistory'])->name('delete.history');
     //update profile.
     Route::put('updateprofile/{id}/{image}', [WebController::class, 'updateProfile'])->name('update.profile');
     Route::get('cancelupdateprofile', [WebController::class, 'cancelUpdateProfile'])->name('cancel.update.profile');

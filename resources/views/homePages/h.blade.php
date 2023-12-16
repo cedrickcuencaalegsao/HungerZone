@@ -25,7 +25,9 @@
                         <td>{{ $items->quantity }}</td>
                         <td>{{ $items->total_amount }}</td>
                         <td>{{ $items->address }}</td>
-                        <td><a href="#"><button>Delete</button></a></td>
+                        <td><a
+                                href="{{ route('delete.history', ['id' => encrypt($items->id), 'user_id' => encrypt(auth()->user()->id)]) }}"><button>Delete</button></a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
