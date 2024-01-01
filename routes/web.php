@@ -5,7 +5,6 @@ use App\Http\Controllers\uploaderControl;
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::group(['middleware' => 'guest'], function () {
     // Admin pages.
     Route::get('admin', [WebController::class, 'view_adminhome'])->name('view.admin');
@@ -73,5 +72,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cancelupdateprofile', [WebController::class, 'cancelUpdateProfile'])->name('cancel.update.profile');
 
     // update password.
-
 });
+
+//      
