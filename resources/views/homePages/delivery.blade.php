@@ -1,7 +1,7 @@
 @extends('layouts.default_layouts')
 @section('content')
     <div class="delivery">
-        @foreach ($data as $items)
+        @forelse ($data as $items)
             <div class="delivery-cards">
                 <div class="details">
                     <label>Order Id: </label><span>{{ $items->id }}</span><br>
@@ -18,11 +18,19 @@
                         <label class="status">Delivered to: </label>
                         <span>{{ $items->address }}</span><br>
                     @endif
-                    <a href="{{ route('cancel.delivery', ['id' => $items->id]) }}"><button
-                            class="btn-cancel">Cancel this delivery</button></a>
+                    <a href="{{ route('cancel.delivery', ['id' => $items->id]) }}"><button class="btn-cancel">Cancel this
+                            delivery</button></a>
                 </div>
                 <img src="{{ asset('images/menu/' . $items->image) }}"alt="image"><br>
             </div>
-        @endforeach
+        @empty
+            <div class="delivery-cards">
+                <div class="details">
+                    <label>no data found.</label>
+                    <span>No delivery is active.</span><br>
+                    <a href="{{ route('view.home') }}"><button class="btn-cancel">Back To Home</button></a>
+                </div>
+            </div>
+        @endforelse
     </div>
 @stop

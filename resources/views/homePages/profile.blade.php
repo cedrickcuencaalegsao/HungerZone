@@ -9,16 +9,10 @@
             <label>Lastname: </label><span>{{ auth()->user()->lastname }}</span><br>
             <label>Email and contact#: </label><span>{{ auth()->user()->email }}/{{ auth()->user()->phone }}</span><br>
         </div>
-        <div class="user-stat">
-            <label>Number of orders:</label><span></span><br>
-            <label>Number of cart:</label><span></span><br>
-            <label>Number of ongoing transaction:</label><span></span><br>
-        </div>
         <div class="sec-btn">
             <a href="{{ route('edit.profile', ['id' => encrypt(auth()->user()->id)]) }}"><button
                     class="btnUpdateprofile">Update
                     Profile</button></a><br>
-            <a href="#"><button class="btnUpdatepassword">Update Password</button></a><br>
             <a href="{{ route('logout') }}"><button class="btnSignout">Sign Out</button></a>
         </div>
     </div>

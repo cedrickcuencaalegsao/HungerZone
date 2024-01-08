@@ -562,7 +562,8 @@ class WebController extends Controller
             'firstname' => 'required',
             'lastname' => 'required',
             'email' => 'required',
-            'phone' => 'required'
+            'phone' => 'required',
+            'image' => 'required'
         ]);
         $data = $request->all();
         if ($request->file('image') === null) {

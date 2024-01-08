@@ -1,16 +1,12 @@
 @extends('layouts.default_layouts')
 @section('content')
-    <div class="form-wrapper">
-        <div class="preview-image">
-            <p>preview image</p>
-            <img src="{{ asset('images/user/' . $data->image) }}" alt="image" height="100px" width="100px">
-        </div>
+    <div class="sec-update-profile">
         <form action="{{ route('update.profile', ['id' => auth()->user()->id, 'image' => auth()->user()->image]) }}"
             method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            <p>update profile</p>
-            <p>user ID: {{ $data->id }}</p>
+            <h1>update profile</h1>
+            <label>user ID: {{ $data->id }}</label><br>
             <label>first name:</label>
             <input type="text" name="firstname" value="{{ $data->firstname }}"><br>
             @if ($errors->has('firstname'))
@@ -21,7 +17,7 @@
             @if ($errors->has('lastname'))
                 <span>{{ $errors->first('lastname') }}</span><br>
             @endif
-            <lable>email:</lable>
+            <label>email:</label>
             <input type="text" name="email" value="{{ $data->email }}"><br>
             @if ($errors->has('email'))
                 <span>{{ $errors->first('email') }}</span><br>
@@ -33,8 +29,12 @@
             @endif
             <label>uploaded profile picture:</label><br>
             <input type="file" name="image"><br>
-            <button type="submit">update</button><br>
-            <a href="{{ route('cancel.update.profile') }}">Cancel</a>
+            @if ($errors->has('image'))
+                <span>{{ $errors->first('image') }}</span><br>
+            @endif
+            <button type="submit" class="btn-update">update</button><br>
+
         </form>
+        <a href="{{ route('cancel.update.profile') }}"><button class="btn-cancel-update">Cancel</button></a>
     </div>
 @stop
