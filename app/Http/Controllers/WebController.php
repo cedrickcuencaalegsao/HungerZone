@@ -556,7 +556,7 @@ class WebController extends Controller
     }
     public function updateProfile(Request $request, string $id, string $image)
     {
-
+        // current time stamp.
         $updated_at = Carbon::now()->toDateString();
         $request->validate([
             'firstname' => 'required',
