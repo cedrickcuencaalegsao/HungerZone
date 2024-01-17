@@ -5,7 +5,7 @@ use App\Http\Controllers\uploaderControl;
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'guest'], function () { 
+Route::group(['middleware' => 'guest'], function () {
     //
     // Client pages.
     //
@@ -22,7 +22,9 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    //
     // Client Pages.
+    //
     Route::get('home', [WebController::class, 'show_home'])->name('view.home');
     Route::get('cart/{user_id}', [WebController::class, 'view_cart'])->name('view.cart');
     Route::get('history/{user_id}', [WebController::class, 'view_history'])->name('view.history');
@@ -48,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
     //
     // Admin pages.
     //
+    // admin pages.
     Route::get('admin', [WebController::class, 'view_adminhome'])->name('view.admin');
     Route::get('users', [WebController::class, 'view_users'])->name('view.user');
     Route::get('menuuploader', [WebController::class, 'uploader_menu'])->name('uploader.menu');

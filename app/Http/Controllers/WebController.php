@@ -519,7 +519,7 @@ class WebController extends Controller
             'FirstName' => 'required',
             'LastName' => 'required',
             'PhoneNumber' => 'required',
-            'Email' => 'required|email|unique:users',
+            'Email' => 'required|email|unique:users',   
             'Password' => 'required|min:6',
             'ConfirmPassword' => 'required'
         ]);

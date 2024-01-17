@@ -39,7 +39,7 @@
             <label>select image:</label><br>
             <input type="file" name="image" value="{{ $data->image}}"><br>
             <p>image preview</p>
-            <img src="{{ asset('images/menu/' . $data->image) }}" alt="image"><br>
+            <img src="{{ asset('images/menu/' . $data->image) }}" alt="image" width="300px" height="300px"><br>
             <button type="submit">Update</button>
             <a href="{{ route('uploader.menu') }}">Cancel</a>
         </form>
