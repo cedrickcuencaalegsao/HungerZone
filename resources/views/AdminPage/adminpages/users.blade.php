@@ -12,6 +12,7 @@
                     <th>Date of Registration</th>
                     <th>Date Updated</th>
                     <th>Image</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,9 +28,15 @@
                         <td>{{ $rows->updated_at }}</td>
                         <td><img src="{{ asset('images/user/' . $rows->image) }}" width="70px" height="70px" alt="image">
                         </td>
+                        <td>
+                            <a href="{{ route('edit.user', ['id' => encrypt($rows->id)]) }}">edit</a><br>
+                            <a
+                                href="{{ route('delete.user', ['id' => encrypt($rows->id)]) }}">delete</a>
+                        </td>
                     </tr>
                 @empty
                     <tr>
+                        <td>NaN</td>
                         <td>NaN</td>
                         <td>NaN</td>
                         <td>NaN</td>

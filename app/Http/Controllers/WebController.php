@@ -64,6 +64,27 @@ class WebController extends Controller
         $data = User::all();
         return view('AdminPage.adminpages.users', compact('data'));
     }
+    public function deleteUser(string $id)
+    {
+        $id = decrypt($id);
+        $data = User::where('id', $id)->first();
+        $image = $data->image;
+        if ($id != 0) {
+            User::where('id', $id)->delete();
+            File::delete(public_path('images/user/' . $image));
+        }
+        return $this->view_users();
+    }
+    public function editUser(string $id)
+    {
+        $id = decrypt($id);
+        dd($id);
+    }
+    public function updateUser(string $id)
+    {
+        $id = decrypt($id);
+        dd($id);
+    }
     public function uploader_menu()
     {
         $restaurantnames = DB::table('table_restaurant')->get();
@@ -519,7 +540,7 @@ class WebController extends Controller
             'FirstName' => 'required',
             'LastName' => 'required',
             'PhoneNumber' => 'required',
-            'Email' => 'required|email|unique:users',   
+            'Email' => 'required|email|unique:users',
             'Password' => 'required|min:6',
             'ConfirmPassword' => 'required'
         ]);
@@ -532,7 +553,8 @@ class WebController extends Controller
                 'email' => $data['Email'],
                 'password' => Hash::make($data['Password']),
                 'image' => 0,
-                'created_at' => $created_at
+                'created_at' => $created_at,
+                'isAdmin' => 0
             ]);
             return redirect()->intended('login')->with(
                 'message',

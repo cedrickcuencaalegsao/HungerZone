@@ -47,31 +47,40 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('updateprofile/{id}/{image}', [WebController::class, 'updateProfile'])->name('update.profile');
     Route::get('cancelupdateprofile', [WebController::class, 'cancelUpdateProfile'])->name('cancel.update.profile');
 
-    //
-    // Admin pages.
-    //
-    // admin pages.
-    Route::get('admin', [WebController::class, 'view_adminhome'])->name('view.admin');
-    Route::get('users', [WebController::class, 'view_users'])->name('view.user');
-    Route::get('menuuploader', [WebController::class, 'uploader_menu'])->name('uploader.menu');
-    Route::get('loginimages', [WebController::class, 'uploaderloginimages'])->name('uploader.login.images');
-    Route::get('restuarant', [WebController::class, 'uploader_restaurant'])->name('uploader.restaurant');
-    //delete
-    Route::get('deletemenu/{id}/{image}', [WebController::class, 'delMenu'])->name('del.menu');
-    Route::get('deleterestaurant/{id}/{image}', [WebController::class, 'delRestaurant'])->name('del.restaurant');
-    Route::get('deleteloginimg/{id}/{image}', [WebController::class, 'delLoginImg'])->name('del.login.img');
-    //edit
-    Route::get('editmenu/{id}', [WebController::class, 'editMenu'])->name('edit.menu');
-    Route::get('editrestaurant/{id}', [WebController::class, 'editRestaurant'])->name('edit.restuarant');
-    Route::get('editloginimages/{id}', [WebController::class, 'editLoginImg'])->name('edit.login.img');
-    // update routes
-    Route::put('updatemenu/{id}/{image}', [WebController::class, 'updateMenu'])->name('update.menu');
-    Route::put('updaterestaurant/{id}/{image}', [WebController::class, 'updateRestuarant'])->name('updated.restaurant');
-    Route::put('updateloginimg/{id}/{image}', [WebController::class, 'updateLoginImg'])->name('update.login.img');
-    // upload routes.
-    Route::post('uploadimagelogin', [WebController::class, 'uploadimage_login'])->name('up.login.img');
-    Route::post('uploadimgrestaurant', [WebController::class, 'upldImgRest'])->name('up.img.rest');
-    Route::post('uploadjollibeemenu', [WebController::class, 'uploadimage_menu'])->name('upload.menu');
-    // changes status.
-    Route::get('updateStatus/{id}', [WebController::class, 'changeStatus'])->name('change.status');
+
 });
+
+Route::group(
+    ['middleware' => ['auth', 'admin']],
+    function () {
+        //
+        // Admin pages.
+        //
+        // admin pages.
+        Route::get('admin', [WebController::class, 'view_adminhome'])->name('view.admin');
+        Route::get('users', [WebController::class, 'view_users'])->name('view.user');
+        Route::get('menuuploader', [WebController::class, 'uploader_menu'])->name('uploader.menu');
+        Route::get('loginimages', [WebController::class, 'uploaderloginimages'])->name('uploader.login.images');
+        Route::get('restuarant', [WebController::class, 'uploader_restaurant'])->name('uploader.restaurant');
+        //delete
+        Route::get('deletemenu/{id}/{image}', [WebController::class, 'delMenu'])->name('del.menu');
+        Route::get('deleterestaurant/{id}/{image}', [WebController::class, 'delRestaurant'])->name('del.restaurant');
+        Route::get('deleteloginimg/{id}/{image}', [WebController::class, 'delLoginImg'])->name('del.login.img');
+        Route::get('deleteUser/{id}', [WebController::class, 'deleteUser'])->name('delete.user');
+        //edit
+        Route::get('editmenu/{id}', [WebController::class, 'editMenu'])->name('edit.menu');
+        Route::get('editrestaurant/{id}', [WebController::class, 'editRestaurant'])->name('edit.restuarant');
+        Route::get('editloginimages/{id}', [WebController::class, 'editLoginImg'])->name('edit.login.img');
+        Route::get('edituser/{id}', [WebController::class, 'editUser'])->name('edit.user');
+        // update routes
+        Route::put('updatemenu/{id}/{image}', [WebController::class, 'updateMenu'])->name('update.menu');
+        Route::put('updaterestaurant/{id}/{image}', [WebController::class, 'updateRestuarant'])->name('updated.restaurant');
+        Route::put('updateloginimg/{id}/{image}', [WebController::class, 'updateLoginImg'])->name('update.login.img');
+        // upload routes.
+        Route::post('uploadimagelogin', [WebController::class, 'uploadimage_login'])->name('up.login.img');
+        Route::post('uploadimgrestaurant', [WebController::class, 'upldImgRest'])->name('up.img.rest');
+        Route::post('uploadjollibeemenu', [WebController::class, 'uploadimage_menu'])->name('upload.menu');
+        // changes status.
+        Route::get('updateStatus/{id}', [WebController::class, 'changeStatus'])->name('change.status');
+    }
+);

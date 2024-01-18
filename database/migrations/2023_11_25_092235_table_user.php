@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('image')->nullable();
             $table->string('created_at')->nullable();
             $table->string('updated_at')->nullable();
+            $table->string('isAdmin')->nullable();
         });
     }
 
