@@ -12,6 +12,7 @@
                     <th>Date of Registration</th>
                     <th>Date Updated</th>
                     <th>Image</th>
+                    <th>User Type</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -26,12 +27,19 @@
                         <td>{{ $rows->phone }}</td>
                         <td>{{ $rows->created_at }}</td>
                         <td>{{ $rows->updated_at }}</td>
-                        <td><img src="{{ asset('images/user/' . $rows->image) }}" width="70px" height="70px" alt="image">
+                        <td>
+                            <img src="{{ asset('images/user/' . $rows->image) }}" width="70px" height="70px" alt="image">
+                        </td>
+                        <td>
+                            @if ($rows->isAdmin == 1)
+                                Administrator
+                            @else
+                                Client
+                            @endif
                         </td>
                         <td>
                             <a href="{{ route('edit.user', ['id' => encrypt($rows->id)]) }}">edit</a><br>
-                            <a
-                                href="{{ route('delete.user', ['id' => encrypt($rows->id)]) }}">delete</a>
+                            <a href="{{ route('delete.user', ['id' => encrypt($rows->id)]) }}">delete</a>
                         </td>
                     </tr>
                 @empty

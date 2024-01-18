@@ -76,6 +76,7 @@ Route::group(
         Route::put('updatemenu/{id}/{image}', [WebController::class, 'updateMenu'])->name('update.menu');
         Route::put('updaterestaurant/{id}/{image}', [WebController::class, 'updateRestuarant'])->name('updated.restaurant');
         Route::put('updateloginimg/{id}/{image}', [WebController::class, 'updateLoginImg'])->name('update.login.img');
+        Route::put('updateuser/{id}', [WebController::class, 'updateUser'])->name('update.user');
         // upload routes.
         Route::post('uploadimagelogin', [WebController::class, 'uploadimage_login'])->name('up.login.img');
         Route::post('uploadimgrestaurant', [WebController::class, 'upldImgRest'])->name('up.img.rest');

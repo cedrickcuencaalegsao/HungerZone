@@ -78,12 +78,25 @@ class WebController extends Controller
     public function editUser(string $id)
     {
         $id = decrypt($id);
-        dd($id);
+        $data = User::where('id', $id)->first();
+        return view('AdminPage.adminpages.edituser', compact('data'));
     }
-    public function updateUser(string $id)
+    public function updateUser(Request $request, string $id)
     {
+        $data = $request->all();
         $id = decrypt($id);
-        dd($id);
+
+        if ($data['usertype'] === 'Client') {
+            User::where('id', $id)->update([
+                'isAdmin' => 0
+            ]);
+            return $this->view_users();
+        } else {
+            User::where('id', $id)->update([
+                'isAdmin' => 1
+            ]);
+            return $this->view_users();
+        }
     }
     public function uploader_menu()
     {
