@@ -207,4 +207,8 @@
     .delivery-status{
         position: relative;
     }
+    .edit-user{
+        margin-top: 70px;
+        width: 90%;
+    }
 </style>

@@ -1,12 +1,11 @@
 @extends('AdminPage.adminlayout.adminlayout')
 @section('content')
     <div class="edit-user">
-        <h1>asdf</h1>
-        <p>{{ $data }}</p>
+        <h1>Edit User</h1>
         <label for="firstname">First Name: </label><span>{{ $data->firstname }}</span><br>
         <label for="lastname">Last Name: </label><span>{{ $data->lastname }}</span><br>
         <label for="email">Email: </label><span>{{ $data->email }}</span><br>
-        <label for="phone">phone: </label><span>{{ $data->email }}</span><br>
+        <label for="phone">phone: </label><span>{{ $data->phone }}</span><br>
         <label for="image">image:</label><br>
         <img src="{{ asset('images/user/' . $data->image) }}" alt="image" height="300px" width="250px">
         <br>
