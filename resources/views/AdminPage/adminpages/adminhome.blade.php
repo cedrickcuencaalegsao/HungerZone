@@ -71,6 +71,12 @@
                         <td>NaN</td>
                         <td>NaN</td>
                         <td>NaN</td>
+                        <td>NaN</td>
+                        <td>NaN</td>
+                        <td>NaN</td>
+                        <td>NaN</td>
+                        <td>NaN</td>
+                        <td>NaN</td>
                     </tr>
                 @endforelse
             </tbody>
